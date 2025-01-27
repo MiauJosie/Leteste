@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\miauj\\Codes\\Leteste\\Leteste.csproj": {}
+    "C:\\Users\\miauj\\Codes\\Leteste\\Leteste.csproj": {}
   },
   "projects": {
-    "c:\\Users\\miauj\\Codes\\Leteste\\Leteste.csproj": {
+    "C:\\Users\\miauj\\Codes\\Leteste\\Leteste.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\miauj\\Codes\\Leteste\\Leteste.csproj",
+        "projectUniqueName": "C:\\Users\\miauj\\Codes\\Leteste\\Leteste.csproj",
         "projectName": "Leteste",
-        "projectPath": "c:\\Users\\miauj\\Codes\\Leteste\\Leteste.csproj",
+        "projectPath": "C:\\Users\\miauj\\Codes\\Leteste\\Leteste.csproj",
         "packagesPath": "C:\\Users\\miauj\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\miauj\\Codes\\Leteste\\obj\\",
+        "outputPath": "C:\\Users\\miauj\\Codes\\Leteste\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\miauj\\AppData\\Roaming\\NuGet\\NuGet.Config"
