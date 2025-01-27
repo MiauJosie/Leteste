@@ -1,4 +1,4 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"c:/Users/miauj/Codes/Leteste/Content/player_atlas.png","c:/Users/miauj/Codes/Leteste/Content/bin/DesktopGL/Content/player_atlas.xnb","TextureProcessor","Texture2DContent",2184,184405,0.1081691
-"c:/Users/miauj/Codes/Leteste/Content/player_static.png","c:/Users/miauj/Codes/Leteste/Content/bin/DesktopGL/Content/player_static.xnb","TextureProcessor","Texture2DContent",443,9301,0.0035257
+"c:/Users/miauj/Codes/Leteste/Content/player_atlas.png","c:/Users/miauj/Codes/Leteste/Content/bin/DesktopGL/Content/player_atlas.xnb","TextureProcessor","Texture2DContent",2184,184405,0.1988905
+"c:/Users/miauj/Codes/Leteste/Content/player_static.png","c:/Users/miauj/Codes/Leteste/Content/bin/DesktopGL/Content/player_static.xnb","TextureProcessor","Texture2DContent",443,9301,0.0037403
 "c:/Users/miauj/Codes/Leteste/Content/tileset_atlas.png","c:/Users/miauj/Codes/Leteste/Content/bin/DesktopGL/Content/tileset_atlas.xnb","TextureProcessor","Texture2DContent",1040,6997,0.0023531

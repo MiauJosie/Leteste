@@ -7,36 +7,42 @@ using Microsoft.Xna.Framework;
 
 namespace Leteste.Physics;
 
-// Represents a solid object in the game world that other entities can collide with.
-// Can be static (like walls) or dynamic (like moving platforms).
+/// <summary>
+/// Represents a solid object in the game world that other entities can collide with.
+/// Can be static (like walls) or dynamic (like moving platforms).
+/// Handles complex interactions with actors including carrying and pushing.
+/// </summary>
 public class Solid
 {
     // Core properties
-    public Vector2 Position;
-    public bool Collidable;
-    public int Width;
-    public int Height;
-    public Level Level;
-    public bool IsOneWay;
+    public Vector2 Position;             // Current position in world space
+    public bool Collidable;              // Whether other entities can collide with this solid
+    public int Width;                    // Width of collision box
+    public int Height;                   // Height of collision box
+    public Level Level;                  // Reference to the current level
+    public bool IsOneWay;                // If true, can only be collided with from above
 
     // Rendering components
-    public Sprite sprite;
-    public Rectangle? sourceRect;
+    public Sprite sprite;                // Visual representation
+    public Rectangle? sourceRect;        // Source rectangle for sprite sheet animations
 
     // Physics state
-    public float yRemainder;
-    public float xRemainder;
+    public float yRemainder;             // Sub-pixel movement accumulator for Y axis
+    public float xRemainder;             // Sub-pixel movement accumulator for X axis
 
     // Cached lists for performance
-    public List<Actor> carriedActors = new();
-    public List<Actor> collidingActors = new();
+    public List<Actor> carriedActors = new();    // Actors currently riding this solid
+    public List<Actor> collidingActors = new();  // Actors currently colliding with this solid
 
-    // Collision box properties
+    // Collision box properties - convenience getters for bounds
     public int Left => GetBounds().Left;
     public int Right => GetBounds().Right;
     public int Top => GetBounds().Top;
     public int Bottom => GetBounds().Bottom;
 
+    /// <summary>
+    /// Creates a new Solid with specified dimensions and position
+    /// </summary>
     public Solid(Level level, Vector2 position, int width, int height)
     {
         Level = level;
@@ -46,7 +52,10 @@ public class Solid
         Collidable = true;
     }
 
-    // Moves the solid by the specified amount, handling all actor interactions.
+    /// <summary>
+    /// Moves the solid by the specified amount, handling all actor interactions.
+    /// This includes pushing colliding actors and carrying riding actors.
+    /// </summary>
     public void Move(float x, float y)
     {
         xRemainder += x;
@@ -57,10 +66,13 @@ public class Solid
 
         if (moveX != 0 || moveY != 0)
         {
+            // Find actors to carry before movement
             FindCarriedActors();
 
+            // Temporarily disable collisions to prevent recursive checks
             Collidable = false;
 
+            // Handle movement one axis at a time
             if (moveX != 0)
             {
                 xRemainder -= moveX;
@@ -77,12 +89,16 @@ public class Solid
 
             Collidable = true;
 
+            // Clear cached lists
             carriedActors.Clear();
             collidingActors.Clear();
         }
     }
 
-    // Finds all actors that should be carried by this solid before movement
+    /// <summary>
+    /// Identifies all actors that should be carried by this solid
+    /// An actor is carried if it's riding (standing on top of) this solid
+    /// </summary>
     private void FindCarriedActors()
     {
         carriedActors.Clear();
@@ -95,7 +111,10 @@ public class Solid
         }
     }
 
-    // Gets the collision bounds of the solid
+    /// <summary>
+    /// Gets the collision bounds of the solid
+    /// Can be overridden by derived classes for custom collision boxes
+    /// </summary>
     public virtual Rectangle GetBounds()
     {
         return new Rectangle(
@@ -106,13 +125,16 @@ public class Solid
         );
     }
 
-    // Handles all actor interactions during horizontal movement
+    /// <summary>
+    /// Handles all actor interactions during horizontal movement
+    /// This includes pushing colliding actors and moving carried actors
+    /// </summary>
     public void HandleHorizontalMovement(int moveX)
     {
         collidingActors.Clear();
         var bounds = GetBounds();
 
-        // First pass: find all colliding actors
+        // First pass: identify all colliding actors
         foreach (var actor in Level.GetActors().ToList())
         {
             if (bounds.Intersects(actor.GetBounds()))
@@ -126,7 +148,7 @@ public class Solid
         {
             if (collidingActors.Contains(actor))
             {
-                // Push the actor in the movement direction
+                // Push the actor out of the solid
                 if (moveX > 0)
                 {
                     actor.MoveX(Right - actor.Left, actor.Squish);
@@ -138,18 +160,22 @@ public class Solid
             }
             else if (carriedActors.Contains(actor))
             {
-                // Carry the actor along
+                // Move carried actors along with the solid
                 actor.MoveX(moveX, null);
             }
         }
     }
 
-    // Same as HandleHorizontalMovement but vertically
+    /// <summary>
+    /// Handles all actor interactions during vertical movement
+    /// Functions similarly to HandleHorizontalMovement but for vertical movement
+    /// </summary>
     private void HandleVerticalMovement(int moveY)
     {
         collidingActors.Clear();
         var bounds = GetBounds();
 
+        // First pass: identify all colliding actors
         foreach (var actor in Level.GetActors().ToList())
         {
             if (bounds.Intersects(actor.GetBounds()))
@@ -158,10 +184,12 @@ public class Solid
             }
         }
 
+        // Second pass: handle collisions and carrying
         foreach (var actor in Level.GetActors().ToList())
         {
             if (collidingActors.Contains(actor))
             {
+                // Push the actor out of the solid
                 if (moveY > 0)
                 {
                     actor.MoveY(Bottom - actor.Top, actor.Squish);
@@ -173,11 +201,15 @@ public class Solid
             }
             else if (carriedActors.Contains(actor))
             {
+                // Move carried actors along with the solid
                 actor.MoveY(moveY, null);
             }
         }
     }
 
+    /// <summary>
+    /// Draws the solid's sprite if one exists
+    /// </summary>
     public virtual void Draw()
     {
         if (sprite != null)

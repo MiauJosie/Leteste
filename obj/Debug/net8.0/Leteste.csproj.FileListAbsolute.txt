@@ -26,3 +26,4 @@ C:\Users\miauj\Codes\Leteste\obj\Debug\net8.0\Leteste.pdb
 C:\Users\miauj\Codes\Leteste\obj\Debug\net8.0\Leteste.genruntimeconfig.cache
 C:\Users\miauj\Codes\Leteste\obj\Debug\net8.0\ref\Leteste.dll
 c:\Users\miauj\Codes\Leteste\bin\Debug\net8.0\Content\player_static.xnb
+c:\Users\miauj\Codes\Leteste\obj\Debug\net8.0\Leteste.sourcelink.json
